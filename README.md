@@ -10,6 +10,8 @@ AlpenExplorer Dev test (Weather) developed in Dart and flutter.
 -  beautiful animations using Lottie
 -  Detect current location feature
 -  Add multiple cities location for weather update
+-  Offline fallBack in case of internet connectivity issue
+-  Loading and error handling in case of API calls and errors
 
 
 
