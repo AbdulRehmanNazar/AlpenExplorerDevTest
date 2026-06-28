@@ -1,5 +1,5 @@
 # AlpenExplorer Dev Test
-AlpenExplorer Dev test developed in Dart and flutter.
+AlpenExplorer Dev test (Weather) developed in Dart and flutter.
 ## Features included
 - Dart
 -  flutter
@@ -8,6 +8,8 @@ AlpenExplorer Dev test developed in Dart and flutter.
 -  Test cases
 -  API Integration using Dio
 -  beautiful animations using Lottie
+-  Detect current location feature
+-  Add multiple cities location for weather update
 
 
 
