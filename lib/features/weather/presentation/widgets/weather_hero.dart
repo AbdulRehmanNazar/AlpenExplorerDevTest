@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../data/weather_service_stub.dart';
 
@@ -48,10 +49,7 @@ class WeatherHero extends StatelessWidget {
                     '${weather.temperature.toStringAsFixed(1)}°C',
                     style: textTheme.displayLarge,
                   ),
-                  Text(
-                    info.description,
-                    style: textTheme.bodyLarge,
-                  ),
+                  Text(info.description, style: textTheme.bodyLarge),
                   Text(
                     'Gefühlt ${weather.apparentTemp.toStringAsFixed(1)}°C',
                     style: textTheme.bodyMedium,
@@ -76,39 +74,53 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final uvColor = uvIndex != null
+        ? Color(int.parse('FF${WeatherService.uvColor(uvIndex!)}', radix: 16))
+        : null;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _InfoItem(
-          icon: '💨',
+          lottiePath: 'assets/windy.json',
           label: 'Wind',
-          value: '${weather.windSpeed.toStringAsFixed(0)} km/h ${weather.windDirText}',
+          value:
+          '${weather.windSpeed.toStringAsFixed(0)} km/h ${weather.windDirText}',
         ),
         _InfoItem(
-          icon: '💧',
+          lottiePath: 'assets/Humidity.json',
           label: 'Luftfeuchte',
           value: '${weather.humidity.toStringAsFixed(0)}%',
         ),
         _InfoItem(
-          icon: '🌧',
+          lottiePath: 'assets/Raining.json',
           label: 'Niederschlag',
           value: '${weather.precipitation.toStringAsFixed(1)} mm',
         ),
-        if (uvIndex != null) _UvCircleItem(uvIndex: uvIndex!),
+        if (uvIndex != null)
+          _InfoItem(
+            lottiePath: 'assets/uv.json',
+            label: 'UV-Index',
+            value:
+            '${uvIndex!.toStringAsFixed(0)} · ${WeatherService.uvDescription(uvIndex!)}',
+            valueColor: uvColor,
+          ),
       ],
     );
   }
 }
 
 class _InfoItem extends StatelessWidget {
-  final String icon;
+  final String lottiePath;
   final String label;
   final String value;
+  final Color? valueColor;
 
   const _InfoItem({
-    required this.icon,
+    required this.lottiePath,
     required this.label,
     required this.value,
+    this.valueColor,
   });
 
   @override
@@ -116,57 +128,18 @@ class _InfoItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
-        Text(icon, style: const TextStyle(fontSize: 20)),
-        const SizedBox(height: 4),
-        Text(label, style: textTheme.bodySmall),
-        Text(value, style: textTheme.titleMedium),
-      ],
-    );
-  }
-}
-
-class _UvCircleItem extends StatelessWidget {
-  final double uvIndex;
-
-  const _UvCircleItem({required this.uvIndex});
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final color     = Color(int.parse('FF${WeatherService.uvColor(uvIndex)}', radix: 16));
-    final fraction  = (uvIndex / 11).clamp(0.0, 1.0);
-
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            SizedBox(
-              width: 36,
-              height: 36,
-              child: CircularProgressIndicator(
-                value: fraction,
-                strokeWidth: 3.5,
-                backgroundColor: AppTheme.border,
-                valueColor: AlwaysStoppedAnimation<Color>(color),
-                strokeCap: StrokeCap.round,
-              ),
-            ),
-            Text(
-              uvIndex.toStringAsFixed(0),
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: color,
-              ),
-            ),
-          ],
+        Lottie.asset(
+          lottiePath,
+          width: 40,
+          height: 40,
+          repeat: true,
+          fit: BoxFit.contain,
         ),
         const SizedBox(height: 4),
-        Text('UV-Index', style: textTheme.bodySmall),
+        Text(label, style: textTheme.bodySmall),
         Text(
-          WeatherService.uvDescription(uvIndex),
-          style: textTheme.titleMedium,
+          value,
+          style: textTheme.titleMedium?.copyWith(color: valueColor),
         ),
       ],
     );
