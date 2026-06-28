@@ -1,5 +1,5 @@
 # AlpenExplorer Dev Test
-AlpenExplorer Dev test (Weather) developed in Dart and flutter.
+AlpenExplorer Dev test (Weather) is developed in Dart and flutter.
 ## Features included
 - Dart
 -  flutter
@@ -12,6 +12,11 @@ AlpenExplorer Dev test (Weather) developed in Dart and flutter.
 -  Add multiple cities location for weather update
 -  Offline fallBack in case of internet connectivity issue
 -  Loading and error handling in case of API calls and errors
+
+## Demo ScreenShot
+
+<img width="738" height="1600" alt="PHOTO-2026-06-28-17-42-50" src="https://github.com/user-attachments/assets/ee6fe187-6ec3-4c2d-a5a4-08dc5d38872e" />
+
 
 
 
