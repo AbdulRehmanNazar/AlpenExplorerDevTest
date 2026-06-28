@@ -20,13 +20,7 @@ class WeatherScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppTheme.surface,
         title: const Text('AlpenExplorer Wetter'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () =>
-                context.read<WeatherBloc>().add(const WeatherRefreshRequested()),
-          ),
-        ],
+        actions: [],
       ),
       body: BlocBuilder<WeatherBloc, WeatherState>(
         builder: (context, state) {

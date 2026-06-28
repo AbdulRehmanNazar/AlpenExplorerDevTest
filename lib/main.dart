@@ -1,3 +1,4 @@
+import 'package:alpenexplorer/features/weather/presentation/bloc/locations_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -20,9 +21,15 @@ class AlpenExplorerApp extends StatelessWidget {
       title: 'AlpenExplorer',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (_) => WeatherBloc()
-          ..add(const WeatherLocationRequested()),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => WeatherBloc()..add(const WeatherLocationRequested()),
+          ),
+          BlocProvider(
+            create: (_) => LocationsCubit(),
+          ),
+        ],
         child: const WeatherScreen(),
       ),
     );
